@@ -16,6 +16,8 @@ public class Player : MonoBehaviour
     public PlayerController Input { get; private set; }
     public CharacterController Controller { get; private set; }
 
+    public ForceReciver ForceReciver { get; private set; }
+
 
 
     private PlayerStateMachine stateMachine;
@@ -28,7 +30,8 @@ public class Player : MonoBehaviour
         Controller = GetComponent<CharacterController>();
 
         stateMachine = new PlayerStateMachine(this);
-        stateMachine.ChangeState(stateMachine.IdleState);
+        ForceReciver = GetComponent<ForceReciver>(); 
+     
 
     }
 
@@ -39,6 +42,7 @@ public class Player : MonoBehaviour
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
+        stateMachine.ChangeState(stateMachine.IdleState);
     }
 
     // Update is called once per frame

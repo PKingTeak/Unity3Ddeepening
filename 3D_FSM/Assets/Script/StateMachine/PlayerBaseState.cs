@@ -127,7 +127,7 @@ public class PlayerBaseState : IState
         float movementSpeed = GetMovementSpeed();
 
 
-        stateMachine.Player.Controller.Move((dir * movementSpeed)* Time.deltaTime);
+        stateMachine.Player.Controller.Move(((dir * movementSpeed)+ stateMachine.Player.ForceReciver.movement)*Time.deltaTime);
     }
 
 
