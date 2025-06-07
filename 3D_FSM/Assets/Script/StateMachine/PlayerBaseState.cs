@@ -27,19 +27,19 @@ public class PlayerBaseState : IState
         RemoveInputActionsCallBack();
     }
 
-    public virtual  void HandleInput()
+    public virtual void HandleInput()
     {
         ReadMovementInput();
 
 
     }
 
-    public virtual  void PhysicsUpdate()
+    public virtual void PhysicsUpdate()
     {
-        
+
     }
 
-    public virtual  void Update()
+    public virtual void Update()
     {
         Move();
     }
@@ -47,7 +47,7 @@ public class PlayerBaseState : IState
     protected void StartAnimation(int animatorHash) //모든 state에 필요하기 때문에 
     {
         stateMachine.Player.Animator.SetBool(animatorHash, true);
-        
+
     }
     protected void StopAnimation(int animatorHash)
     {
@@ -90,6 +90,7 @@ public class PlayerBaseState : IState
         PlayerController input = stateMachine.Player.Input;
         input.playerActions.Movement.canceled += OnMoveMentCaneceled;
         input.playerActions.Run.started += OnRunStarted;
+        input.playerActions.Jump.started += OnJumpStart;
 
     }
 
@@ -98,10 +99,11 @@ public class PlayerBaseState : IState
         PlayerController input = stateMachine.Player.Input;
         input.playerActions.Movement.canceled -= OnMoveMentCaneceled;
         input.playerActions.Run.started -= OnRunStarted;
+        input.playerActions.Jump.started -= OnJumpStart;
 
     }
-    
-    
+
+
 
     private float GetMovementSpeed()
     {
@@ -112,14 +114,21 @@ public class PlayerBaseState : IState
 
     }
 
+
+    protected virtual void OnJumpStart(InputAction.CallbackContext context)
+    {
+
+
+
+    }
     protected virtual void OnMoveMentCaneceled(InputAction.CallbackContext context)
-    { 
-        
+    {
+
     }
 
     protected virtual void OnRunStarted(InputAction.CallbackContext context)
-    { 
-        
+    {
+
     }
 
     private void Move(Vector3 dir)
@@ -127,7 +136,7 @@ public class PlayerBaseState : IState
         float movementSpeed = GetMovementSpeed();
 
 
-        stateMachine.Player.Controller.Move(((dir * movementSpeed)+ stateMachine.Player.ForceReciver.movement)*Time.deltaTime);
+        stateMachine.Player.Controller.Move(((dir * movementSpeed) + stateMachine.Player.ForceReciver.movement) * Time.deltaTime);
     }
 
 
@@ -140,4 +149,5 @@ public class PlayerBaseState : IState
             playerTransform.rotation = Quaternion.Slerp(playerTransform.rotation, targetRotation, stateMachine.RotationDamping * Time.deltaTime);
         }
     }
+    
 }

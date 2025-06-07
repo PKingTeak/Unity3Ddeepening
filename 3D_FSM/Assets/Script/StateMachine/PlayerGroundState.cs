@@ -13,12 +13,12 @@ public class PlayerGroundState : PlayerBaseState
 
     }
 
-    
+
     protected override void OnMoveMentCaneceled(InputAction.CallbackContext context)
     {
         if (stateMachine.MovementInput == Vector2.zero)
         {
-            return; 
+            return;
         }
 
         stateMachine.ChangeState(stateMachine.IdleState); //기존에 입력있을때 
@@ -43,6 +43,19 @@ public class PlayerGroundState : PlayerBaseState
     public override void PhysicsUpdate()
     {
         base.PhysicsUpdate();
+
+        if (!stateMachine.Player.Controller.isGrounded && stateMachine.Player.Controller.velocity.y <Physics.gravity.y * Time.fixedDeltaTime )
+        {
+
+            stateMachine.ChangeState(stateMachine.FallState);
+            return;
+         }
+    }
+
+    protected override void OnJumpStart(InputAction.CallbackContext context)
+    {
+        base.OnJumpStart(context);
+        stateMachine.ChangeState(stateMachine.JumpState);
     }
 
 
